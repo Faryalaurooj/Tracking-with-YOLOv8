@@ -61,12 +61,42 @@ By default the tracker tracks all MS COCO classes. In our application we need to
 
 ### Experiments
 
-(1) I ran it for 1.mp4 video and got this result:
+(1) By default, deeposcort tracker is used. I have benchmarked trackers one by one by with '1.mp4' video. For deepsort tracker, got this result:
 
 https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/e1f6582d-b423-4eb5-baae-3e0b0254b29b
 
 Speed: 0.7ms preprocess, 6.1ms inference, 1.3ms postprocess, 21.9ms tracking per image at shape (1, 3, 384, 640)
 Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp5
+
+
+(2)  If we want to do tracking with botsort , strongsort, ocsort, bytetrack then we can do this in this manner. First with ocsort:
+
+```
+ python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method ocsort
+```
+
+Following results achieved
+Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 1.1ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp12-oscort
+
+(3) with botsort
+
+```
+ python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method botsort
+```
+results are:
+Speed: 0.7ms preprocess, 6.4ms inference, 1.5ms postprocess, 21.4ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13-botsort
+
+(4) with strongsort:
+
+Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 23.0ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp14-strongsort
+
+(5) with bytetrack:
+
+Speed: 0.7ms preprocess, 6.1ms inference, 1.5ms postprocess, 1.2ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp15-bytetrack
 
 (2) Then i did tracking on another video examp.mp4 and got this result:
 
@@ -76,43 +106,11 @@ Speed: 1.0ms preprocess, 5.7ms inference, 0.9ms postprocess, 19.3ms tracking per
 Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp8
 
 
-Run it by
-(3) Then i did it through this command 
+(6) Then i did it through this command which is for a video url instead of source video in directory
 
 ```
 python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB3jcI' --save  --classes 0 1 
 ```
-and i got this result
-
-(4) By default, deeposcort tracker is used. If we want to do tracking with botsort , strongsort, ocsort, bytetrack then we can do this in this manner:
-    Now with ocsort:
-```
- python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method ocsort
-```
-Following results achieved
-Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 1.1ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp12-oscort
-
-
-(5) with botsort
-
-```
- python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method botsort
-```
-results are:
-Speed: 0.7ms preprocess, 6.4ms inference, 1.5ms postprocess, 21.4ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13-botsort
-
-(6) with strongsort:
-
-Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 23.0ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp14-strongsort
-
-(7) with bytetrack:
-
-Speed: 0.7ms preprocess, 6.1ms inference, 1.5ms postprocess, 1.2ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp15-bytetrack
-
 
 ### Results
 
@@ -126,7 +124,7 @@ We are using a fast multi-object tracking genetic algorithm for tracker hyperpar
 
 (4) Tracking speed
 
-By comparing results from above experiments benchmarked on same video '1.mp4' it was observed that tracking speed per image is :
+By comparing results from above experiments (1) till (5) benchmarked on same video '1.mp4' it was observed that tracking speed per image is :
 
 oscort   = 1.1ms
 deepsort =  21.9ms 
@@ -134,5 +132,5 @@ botsort  = 21.4ms
 strongsort = 23.0ms
 bytetrack = 1.2ms
 
-so oscort is FASTEST and bytetrack is second FAST tracker found so far.
+So oscort is FASTEST and bytetrack is second FAST tracker found so far.
 
