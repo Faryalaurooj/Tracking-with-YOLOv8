@@ -28,3 +28,16 @@ I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i ha
 (2) Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv7 models , then trained further on my custom VRU dataset
 
 (3) Provide comparison of results
+
+## Tracking with custom trained YOLO on VRU dataset
+
+### (1) Download repo
+Clone repo and install requirements.txt in a Python>=3.7.0 environment, including PyTorch>=1.7. Models and datasets download automatically from the latest YOLOv5 release.
+
+```
+git clone https://github.com/ultralytics/yolov5  # clone
+cd yolov5
+pip install -r requirements.txt  # install
+```
+### (2) Tracking
+YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want to use , simply copy the weights best.pt file 
