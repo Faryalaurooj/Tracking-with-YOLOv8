@@ -57,12 +57,9 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
 
 By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
 
-I ran it for 1.mp4 video and got this result
+I ran it for 1.mp4 video and got this result:
 
-
-
-https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/8fba4585-aae9-4de6-9e1d-3feccf576dbf
-
+https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/e1f6582d-b423-4eb5-baae-3e0b0254b29b
 
 
 Speed: 0.7ms preprocess, 6.1ms inference, 1.3ms postprocess, 21.9ms tracking per image at shape (1, 3, 384, 640)
