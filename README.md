@@ -57,10 +57,34 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
 
 By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
 
-I ran it for 1.mp4 video and got this result:
+###Experiments
+
+(1) I ran it for 1.mp4 video and got this result:
 
 https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/e1f6582d-b423-4eb5-baae-3e0b0254b29b
 
-
 Speed: 0.7ms preprocess, 6.1ms inference, 1.3ms postprocess, 21.9ms tracking per image at shape (1, 3, 384, 640)
 Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp5
+
+(2) Then i did tracking on another video examp.mp4 and got this result:
+
+
+video 1/1 (27002/27002) /home/caic/Downloads/yolo_series_deepsort_pytorch/yolov8/yolo_tracking/examp.mp4: 384x640 4 persons, 5.8ms
+Speed: 1.0ms preprocess, 5.7ms inference, 0.9ms postprocess, 19.3ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp8
+
+We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. By default the objectives are:
+
+(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate detection, association and localization into a single unified metric for comparing trackers.
+
+(2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
+
+(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to com- bine IDP and IDR to a single number.
+
+Run it by
+(3) Then i did it through this command 
+
+```
+python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB3jcI' --save  --classes 0 1 
+```
+and i got this result
