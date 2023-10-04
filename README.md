@@ -9,9 +9,12 @@ The output from Ultralytics trackers is consistent with standard object detectio
 
    (1) Efficiency: Process video streams in real-time without compromising accuracy.
    
+   
    (2) Flexibility: Supports multiple tracking algorithms and configurations.
    
+   
    (3) Ease of Use: Simple Python API and CLI options for quick integration and deployment.
+   
    
    (4) Customizability: Easy to use with custom trained YOLO models, allowing integration into domain-specific applications.
    
