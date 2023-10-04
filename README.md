@@ -57,6 +57,8 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
 
 By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
 
+
+
 ### Experiments
 
 (1) I ran it for 1.mp4 video and got this result:
@@ -82,6 +84,35 @@ python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB
 ```
 and i got this result
 
+(4) By default, deeposcort tracker is used. If we want to do tracking with botsort , strongsort, ocsort, bytetrack then we can do this in this manner:
+    Now with ocsort:
+```
+ python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method ocsort
+```
+Following results achieved
+Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 1.1ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp12-oscort
+
+
+(5) with botsort
+
+```
+ python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method botsort
+```
+results are:
+Speed: 0.7ms preprocess, 6.4ms inference, 1.5ms postprocess, 21.4ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13-botsort
+
+(6) with strongsort:
+
+Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 23.0ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp14-strongsort
+
+(7) with bytetrack:
+
+Speed: 0.7ms preprocess, 6.1ms inference, 1.5ms postprocess, 1.2ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp15-bytetrack
+
 
 ### Results
 
@@ -92,3 +123,16 @@ We are using a fast multi-object tracking genetic algorithm for tracker hyperpar
 (2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
 
 (3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to com- bine IDP and IDR to a single number.
+
+(4) Tracking speed
+
+By comparing results from above experiments benchmarked on same video '1.mp4' it was observed that tracking speed per image is :
+
+oscort   = 1.1ms
+deepsort =  21.9ms 
+botsort  = 21.4ms
+strongsort = 23.0ms
+bytetrack = 1.2ms
+
+so oscort is FASTEST and bytetrack is second FAST tracker found so far.
+
