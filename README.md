@@ -126,20 +126,32 @@ We are using a fast multi-object tracking genetic algorithm for tracker hyperpar
 
 By comparing results from above experiments (1) till (5) benchmarked on same video '1.mp4' it was observed that tracking speed per image is:
 
-oscort   = 1.1ms
-deepsort =  21.9ms 
-botsort  = 21.4ms
+deepsort =   21.9ms 
+ocsort   =   1.1ms
+botsort  =   21.4ms
 strongsort = 23.0ms
-bytetrack = 1.2ms
+bytetrack =  1.2ms
 
 So oscort is FASTEST and bytetrack is second FAST tracker found so far.
 
-## TRacking with custom trained YOLOv8:
+## Tracking with custom trained YOLOv8:
 
-After completing tracking with coco dataset weights, i have to perform tracking with my own custom data VRU_dataset. For that i copied the weights best.pt from yolov8/runs/train/yolov8s folder into main directory yolo_tracking and then performed tracking with this command:
+After completing tracking with COCO dataset weights, i have to perform tracking with my own custom data VRU_dataset. For that i copied the weights best.pt from yolov8/runs/train/yolov8s folder into main directory yolo_tracking and rename them as yolov8s_custom then perform tracking with this command:
 
+```
+cd yolo_tracking
+python examples/track.py --source 1.mp4 --yolo-model yolov8s_custom.pt --save   # default tracking method is deeposcort
+```
+
+After running above command i get this resulting video with tracking results:
+
+Speed: 0.6ms preprocess, 5.6ms inference, 0.4ms postprocess, 3.4ms tracking per image at shape (1, 3, 384, 640)
+Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13
+
+so we observed tracking time is reduced from 21.9ms to 3.4ms on same '1.mp4' video but there are missed detections. It only detects small objects , not big persons which needs improvement.
 
 ## Transfer Learning 
+
 In above case where i trained YOLOv8s on my custom VRU_dataset, i observed that detection performance parameters were credibaly good (NOT AS GOOD AS ON coco DATASET) BUT WHEN I PERFORMED TRACKING, RESULTS WERE NOT GOOD. MAny frames were missed in the video 1.mp4 without tracking. THerefore, i have performed 'transfer learning' on YOLOv8s by freezing 12 layers, and training remaining model onto my custom VRU_dataset to see how does tracking performance improves.
 For this i ran this command:
 ```
@@ -176,5 +188,25 @@ YOLOv5s summary: 157 layers, 7018216 parameters, 0 gradients, 15.8 GFLOPs
                bicycle        548       1287     0.0795     0.0136    0.00953    0.00266
 Results saved to runs/train/yolov53
 
-SO we observed that the precision recall mAP values have dicreased with transfer learning as compared to training from scratch
+When i run detect command with this trained model with :
+
+```
+cd yolov5
+python detect.py --weights best.pt --source ./VRU_Dataset/images/test
+
+```
+i get this result:
+Speed: 0.2ms pre-process, 5.4ms inference, 0.2ms NMS per image at shape (1, 3, 640, 640)
+Results saved to runs/detect/exp6
+                             YOLOv5s     YOLOv5s (TF_12_layers_freeze)
+Precision                      0.455           0.134
+Recall                         0.292           0.0617
+mAP                            0.292           0.0449
+Inference time (ms)            5.7              5.4
+FPS                            175              185
+Training time (hrs)            16.6             14.7
+SO we observed that the precision recall mAP values have dicreased with transfer learning as compared to training from scratch , however inference time and FPS (speed) and training time has improved slightly.
+
+Now lets try tracking:
+
 
