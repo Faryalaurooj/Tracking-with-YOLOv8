@@ -25,11 +25,11 @@ The output from Ultralytics trackers is consistent with standard object detectio
 
 I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i have provided complete details on development of a custom dataset for VRUs , training of YOLOv5 , YOLOv7 and YOLOv8 models on custom dataset. THe detection results with YOLOv8 and YOLOv5 were good but with YOLOv7 were not good. In this repository i will do two things :
 
-(1) Perfrom tracking with custom trained YOLOv5 and YOLOv7 on my VRU dataset
+   (1)  Perfrom tracking with custom trained YOLOv5 and YOLOv7 on my VRU dataset
 
-(2) Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv7 models , then trained further on my custom VRU dataset
+   (2)  Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv7 models , then trained further on my custom VRU dataset
 
-(3) Provide comparison of results
+   (3)  Provide comparison of results
 
 ## Tracking with custom trained YOLO on VRU dataset
 
@@ -149,6 +149,11 @@ Speed: 0.6ms preprocess, 5.6ms inference, 0.4ms postprocess, 3.4ms tracking per 
 Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13
 
 so we observed tracking time is reduced from 21.9ms to 3.4ms on same '1.mp4' video but there are missed detections. It only detects small objects , not big persons which needs improvement.
+
+
+https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/bd94c06e-1a99-4ece-a655-3ad7f74e00d6
+
+
 
 ## Transfer Learning 
 
