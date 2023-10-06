@@ -112,7 +112,7 @@ Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/
 python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB3jcI' --save  --classes 0 1 
 ```
 
-### Results
+### Evaluation
 
 We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. By default the objectives are:
 
@@ -134,7 +134,14 @@ bytetrack =  1.2ms
 
 So oscort is FASTEST and bytetrack is second FAST tracker found so far.
 
-Evaluate a combination of detector, tracking method on standard MOT dataset or our custom VRU_dataset :
+Evaluate a combination of detector, tracking method on standard MOT 17 dataset or our custom VRU_dataset :
+
+```
+$ python examples/evolve.py --tracking-method strongsort --benchmark MOT17 --n-trials 100  # tune strongsort for MOT17
+                            --tracking-method ocsort     --benchmark <your-custom-dataset> --objective HOTA # tune ocsort for maximizing HOTA on your custom tracking dataset
+```
+
+
 
 ```
 $ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_dukemtcereid.pt --tracking-method deepocsort --benchmark MOT16
@@ -222,5 +229,6 @@ Training time (hrs)            16.6             14.7
 SO we observed that the precision recall mAP values have dicreased with transfer learning as compared to training from scratch , however inference time and FPS (speed) and training time has improved slightly.
 
 Now lets try tracking:
+
 
 
