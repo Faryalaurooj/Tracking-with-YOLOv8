@@ -134,6 +134,15 @@ bytetrack =  1.2ms
 
 So oscort is FASTEST and bytetrack is second FAST tracker found so far.
 
+Evaluate a combination of detector, tracking method on standard MOT dataset or our custom VRU_dataset :
+
+```
+$ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_dukemtcereid.pt --tracking-method deepocsort --benchmark MOT16
+                          --yolo-model yolox_n.pt    --reid-model osnet_ain_x1_0_msmt17.pt  --tracking-method ocsort     --benchmark MOT17
+                          --yolo-model yolov8s.pt    --reid-model lmbn_n_market.pt          --tracking-method strongsort --benchmark <your-custom-dataset>
+```
+
+
 ## Tracking with custom trained YOLOv8:
 
 After completing tracking with COCO dataset weights, i have to perform tracking with my own custom data VRU_dataset. For that i copied the weights best.pt from yolov8/runs/train/yolov8s folder into main directory yolo_tracking and rename them as yolov8s_custom then perform tracking with this command:
