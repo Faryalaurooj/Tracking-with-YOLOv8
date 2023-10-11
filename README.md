@@ -23,7 +23,7 @@ The output from Ultralytics trackers is consistent with standard object detectio
 
 ## What i am going to do
 
-I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i have provided complete details on development of a custom dataset for VRUs , training of YOLOv5 , YOLOv7 and YOLOv8 models on custom dataset. THe detection results with YOLOv8 and YOLOv5 were good but with YOLOv7 were not good. In this repository i will do two things :
+I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i have provided complete details on development of a custom dataset for VRUs , training of YOLOv5 , YOLOv7 and YOLOv8 models on custom dataset. The detection results with YOLOv8 and YOLOv5 were good but with YOLOv7 were not good. In this repository i will do two things :
 
    (1)  Perfrom tracking with custom trained YOLOv5 and YOLOv7 on my VRU dataset
 
@@ -37,8 +37,7 @@ I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i ha
 Clone repo and install requirements.txt in a Python>=3.8.0 environment, including PyTorch>=1.7. Models and datasets download automatically from the latest YOLOv5 release.
 
 ```
-git clone https://github.com/ultralytics/yolov5  # clone
-cd yolov5
+git clone https://github.com/yolo_tracking  # clone
 pip install -r requirements.txt  # install
 ```
 ### (2) Tracking
