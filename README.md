@@ -82,11 +82,13 @@ The output from Ultralytics trackers is consistent with standard object detectio
 
 I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i have provided complete details on development of a custom dataset for VRUs , training of YOLOv5 , YOLOv7 and YOLOv8 models on custom dataset. The detection results with YOLOv8 and YOLOv5 were good but with YOLOv7 were not good. In this repository i will do two things :
 
-   (1)  Perfrom tracking with custom trained YOLOv5 and YOLOv7 on my VRU dataset
+   (1)  Perform tracking with already trained YOLOv8 model with different trackers bytetrack, strongsort, ocsort etc and benchmarking performance HOTA on MOT17 dataset
+   
+   (2)  Perfrom tracking with custom trained YOLOv5 and YOLOv8 on my VRU dataset
 
-   (2)  Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv7 models , then trained further on my custom VRU dataset
+   (3)  Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv8 models , then trained further on my custom VRU dataset
 
-   (3)  Provide comparison of results
+   (4)  Provide comparison of results
 
 
 ## Tracking with custom trained YOLO on VRU dataset
