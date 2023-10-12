@@ -31,6 +31,7 @@ I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i ha
 
    (3)  Provide comparison of results
 
+
 ## Tracking with custom trained YOLO on VRU dataset
 
 ### (1) Download repo for YOLOv8
@@ -59,7 +60,6 @@ $ python examples/track.py --tracking-method deepocsort
                                              bytetrack
                                              botsort
 ```
-
 #### Tracking Sources
 ```
 $ python examples/track.py --source 0                               # webcam
@@ -147,7 +147,6 @@ $ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_duke
                           --yolo-model yolov8s.pt    --reid-model lmbn_n_market.pt          --tracking-method strongsort --benchmark <your-custom-dataset>
 ```
 
-
 ### Evolution
 
 We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. By default the objectives are:
@@ -177,7 +176,9 @@ $ python examples/evolve.py --tracking-method strongsort --benchmark MOT17 --n-t
                             --tracking-method ocsort     --benchmark <your-custom-dataset> --objective HOTA # tune ocsort for maximizing HOTA on your custom tracking dataset
 ```
 
+with strongsort following results achieved :
 
+![pedestrian_plot](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/1c8136a3-95be-4e32-b867-ec1ef6030d5a)
 
 
 ## Tracking with custom trained YOLOv8:
