@@ -7,23 +7,35 @@ Object tracking in video analytics is a critical task that not only identifies t
 
 Perfromace Objectives of a good tracker are :
 
-(1) Detection Accuracy 
+(1) Detection Accuracy : Detection measures the alignment between the set of all predicted detections and the set of all ground-truth detections.
 
-(2) Association Accuracy 
+<img width="687" alt="3" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/88c9baa9-17f1-476f-9a15-34441e75dcbe">
 
-(3) Localization Accuracy 
+
+(2) Association Accuracy : Association measures how well a tracker links detections over time into the same identities (IDs), given the ground-truth set of identity links in the ground-truth tracks.
+
+<img width="688" alt="5" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/33d8ff3a-6627-46cb-a5b0-b69057e599fa">
+
+
+(3) Localization Accuracy : Localization measures the spatial alignment between one predicted detection and one ground-truth detection. 
+
+<img width="687" alt="1" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/1d55ce37-c345-4ea5-97b6-194ac78f579b">
+
 
 There are standard metrices to measure these three parameters. 
 
 (1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
 
+<img width="685" alt="6" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/2351ef58-8482-4eda-8962-70da0a08e490">
+
+
 (2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
 
 (3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
 
-(4) Tracking speed
 
 There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  There is always a trade-off between performance parameters.
+In figure below, HOTA of trackers is compared with Localization accracy of trackers and it is found that for tracker 3 , HOTA is highest 
 
 <img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/996b902f-ffe7-48e9-ad1d-59a04e4c52ef">
 <img width="707" alt="7" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/5ae055b2-d1a6-439d-9034-1a380a8d9a50">
