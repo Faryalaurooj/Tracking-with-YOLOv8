@@ -48,7 +48,6 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
 
 ```
 
-By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
 
 #### Tracking Methods
 By default, deeposcort tracker is used. I have benchmarked trackers one by one by with '1.mp4' video using following command:
@@ -71,6 +70,15 @@ $ python examples/track.py --source 0                               # webcam
                                     'https://youtu.be/Zgi9g1ksQHc'  # YouTube
                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
 ```
+By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. 
+
+#### MOT compliant results
+
+Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
+```
+python examples/track.py --source ... --save-mot
+```
+
 #### Filter tracked classes
 By default the tracker tracks all MS COCO classes.
 
@@ -130,12 +138,21 @@ Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/
 ```
 python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB3jcI' --save  --classes 0 1 
 ```
-
 ### Evaluation
+
+Evaluate a combination of detector, tracking method on standard MOT 17 dataset or our custom VRU_dataset :
+```
+$ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_dukemtcereid.pt --tracking-method deepocsort --benchmark MOT16
+                          --yolo-model yolox_n.pt    --reid-model osnet_ain_x1_0_msmt17.pt  --tracking-method ocsort     --benchmark MOT17
+                          --yolo-model yolov8s.pt    --reid-model lmbn_n_market.pt          --tracking-method strongsort --benchmark <your-custom-dataset>
+```
+
+
+### Evolution
 
 We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. By default the objectives are:
 
-(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate detection, association and localization into a single unified metric for comparing trackers.
+(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
 
 (2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
 
@@ -153,7 +170,7 @@ bytetrack =  1.2ms
 
 So oscort is FASTEST and bytetrack is second FAST tracker found so far.
 
-Evaluate a combination of detector, tracking method on standard MOT 17 dataset or our custom VRU_dataset :
+Run it by this command:
 
 ```
 $ python examples/evolve.py --tracking-method strongsort --benchmark MOT17 --n-trials 100  # tune strongsort for MOT17
@@ -161,12 +178,6 @@ $ python examples/evolve.py --tracking-method strongsort --benchmark MOT17 --n-t
 ```
 
 
-
-```
-$ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_dukemtcereid.pt --tracking-method deepocsort --benchmark MOT16
-                          --yolo-model yolox_n.pt    --reid-model osnet_ain_x1_0_msmt17.pt  --tracking-method ocsort     --benchmark MOT17
-                          --yolo-model yolov8s.pt    --reid-model lmbn_n_market.pt          --tracking-method strongsort --benchmark <your-custom-dataset>
-```
 
 
 ## Tracking with custom trained YOLOv8:
