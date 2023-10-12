@@ -45,7 +45,25 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
 ```
 
   python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 # COCO yolov8 model for persons and bicycles detection only. 
-  python examples/track.py --source 0                               # webcam
+
+```
+
+By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
+
+#### Tracking Methods
+By default, deeposcort tracker is used. I have benchmarked trackers one by one by with '1.mp4' video using following command:
+
+```
+$ python examples/track.py --tracking-method deepocsort
+                                             strongsort
+                                             ocsort
+                                             bytetrack
+                                             botsort
+```
+
+#### Tracking Sources
+```
+$ python examples/track.py --source 0                               # webcam
                                     img.jpg                         # image
                                     vid.mp4                         # video
                                     path/                           # directory
@@ -53,14 +71,16 @@ YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want
                                     'https://youtu.be/Zgi9g1ksQHc'  # YouTube
                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
 ```
+#### Filter tracked classes
+By default the tracker tracks all MS COCO classes.
 
-By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
-
-
-
+If you want to track a subset of the classes that you model predicts, add their corresponding index after the classes flag,
+```
+python examples/track.py --source 0 --yolo-model yolov8s.pt --classes 16 17  # COCO yolov8 model. Track cats and dogs, only
+```
 ### Experiments
 
-(1) By default, deeposcort tracker is used. I have benchmarked trackers one by one by with '1.mp4' video. For deepsort tracker, got this result:
+(1)  For deepsort tracker, got this result:
 
 https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/e1f6582d-b423-4eb5-baae-3e0b0254b29b
 
