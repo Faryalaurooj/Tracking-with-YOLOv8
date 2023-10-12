@@ -24,15 +24,17 @@ Perfromace Objectives of a good tracker are :
 
 There are standard metrices to measure these three parameters. 
 
-(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
+
+(1) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
+
+
+(2) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
+
+
+(3) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
+
 
 <img width="685" alt="6" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/2351ef58-8482-4eda-8962-70da0a08e490">
-
-
-(2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
-
-(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
-
 
 There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  In this repo, we will evaluate the trackers on HOTA performance matrix. As an example, let’s look at the results of the top 20 methods on the KITTI tracking leaderboard for pedestrians:
 
@@ -47,6 +49,19 @@ We can go further than just comparing detection and association. We can compare 
 The above plots have tracker numbers ordered by the overall HOTA score still, so the same number refers to the same tracker as above. From the first plot above, we can see that Tracker 1 and Tracker 3 have a similar detection accuracy overall, but Tracker 3 generally finds more of the ground-truth objects (higher recall), but also predicts more detections that are wrong (lower precision). Association recall (AssRe) measures how well trackers can avoid splitting the same object into multiple shorter tracks. In contrast, association precision (AssPr) measures how well tracks can avoid merging multiple objects together into a single track. E.g. Tracker 15 is more likely to split tracks into multiple smaller ones than tracker 20, but it is better at not merging tracks together. Like detection precision and recall, there is a natural trade-off between association precision and recall when designing trackers.
 
 ![10](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/cb389e27-0db3-483c-b9b8-280be3adf5a2)
+
+The HOTA metrics allows meaningful analysis and comparison between trackers over all four of these dimensions (missing detections, extra detections, splitting tracks and merging tracks) while also combining all of these scores meaningfully into an overall score for ranking trackers.
+
+Finally, HOTA also allows the analysis of localization accuracy:
+
+
+<img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/09f379e6-1436-49b3-83b2-5c0d40dfaf60">
+
+
+In the first plot above we compare HOTA(0) (HOTA at the single lowest alpha threshold, so to not include the influence of localization accuracy, in this case at alpha=0.05) against the localization accuracy LocA(0) (LocA at the same threshold). We can see that Tracker 3 performs slightly better than Tracker 1 at HOTA(0), e.g. when allowing detections to match even if they have only a little overlap, Tracker 3 has overall better detection + association, however the localization of these matched detections is worse, such that when we calculate the final HOTA score by calculating over the range of localization thresholds, Tracker 1 has a higher score. This shows how HOTA is able to decompose and combine tracker behavior not only for detection and association but also for localization.
+
+In the second plot, we compare the top 5 trackers’ HOTA scores across the range of different alpha thresholds. All trackers get worse when increasing the alpha threshold, but the rate at which they get worse is interesting and is useful for comparing behavior between trackers.
+
 
 ## Why Choose Ultralytics YOLO for Object Tracking ?
 
