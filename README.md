@@ -48,7 +48,6 @@ We can go further than just comparing detection and association. We can compare 
 
 The above plots have tracker numbers ordered by the overall HOTA score still, so the same number refers to the same tracker as above. From the first plot above, we can see that Tracker 1 and Tracker 3 have a similar detection accuracy overall, but Tracker 3 generally finds more of the ground-truth objects (higher recall), but also predicts more detections that are wrong (lower precision). Association recall (AssRe) measures how well trackers can avoid splitting the same object into multiple shorter tracks. In contrast, association precision (AssPr) measures how well tracks can avoid merging multiple objects together into a single track. E.g. Tracker 15 is more likely to split tracks into multiple smaller ones than tracker 20, but it is better at not merging tracks together. Like detection precision and recall, there is a natural trade-off between association precision and recall when designing trackers.
 
-![10](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/cb389e27-0db3-483c-b9b8-280be3adf5a2)
 
 The HOTA metrics allows meaningful analysis and comparison between trackers over all four of these dimensions (missing detections, extra detections, splitting tracks and merging tracks) while also combining all of these scores meaningfully into an overall score for ranking trackers.
 
