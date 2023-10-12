@@ -23,15 +23,17 @@ There are standard metrices to measure these three parameters.
 
 (4) Tracking speed
 
-There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements. REst it is upto our desired application that which perfromace parameter is more important for us. No tracker can be good in everything. THere is always a trade-off between performance parameters.
+There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  There is always a trade-off between performance parameters.
 
 <img width="708" alt="8" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/bb2aacd6-3aca-4f8a-9134-ccec53077ce5">
 
 <img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/996b902f-ffe7-48e9-ad1d-59a04e4c52ef">
 
+No tracker can be good in everything , it is upto our desired application that which perfromace parameter is more important for tracker. 
+
 ![10](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/cb389e27-0db3-483c-b9b8-280be3adf5a2)
 
-## Why Choose Ultralytics YOLO for Object Tracking?
+## Why Choose Ultralytics YOLO for Object Tracking ?
 
 The output from Ultralytics trackers is consistent with standard object detection but has the added value of object IDs. This makes it easy to track objects in video streams and perform subsequent analytics. Here's why i have considered using Ultralytics YOLO for my VRU tracking project:
 
