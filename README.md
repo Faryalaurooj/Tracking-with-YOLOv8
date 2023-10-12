@@ -31,16 +31,20 @@ There are standard metrices to measure these three parameters.
 
 (2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
 
-(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
+(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
 
 
-There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  There is always a trade-off between performance parameters.
-In figure below, HOTA of trackers is compared with Localization accracy of trackers and it is found that for tracker 3 , HOTA is highest 
+There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  In this repo, we will evaluate the trackers on HOTA performance matrix. As an example, let’s look at the results of the top 20 methods on the KITTI tracking leaderboard for pedestrians:
 
-<img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/996b902f-ffe7-48e9-ad1d-59a04e4c52ef">
-<img width="707" alt="7" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/5ae055b2-d1a6-439d-9034-1a380a8d9a50">
+<img width="707" alt="7" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/4ad77c92-e047-409c-b56b-3429118c33f8">
 
-No tracker can be good in everything , it is upto our desired application that which perfromace parameter is more important for tracker. 
+The rank (red number) gives the order of the trackers, ordered by the overall HOTA score. The top 3 ranked trackers have a very similar overall HOTA scores (46.3%, 45.9% and 45.7%), but we can see from this plot that there is a clear difference in where one is better than the other. Tracker 1 is the best at association, while Tracker 2 is better at detection and Tracker 3 is in between the two for both. If you wanted to select a tracker for a particular application, you could now decide whether association or detection was more important for your application and pick the most appropriate tracker accordingly. 
+
+We can go further than just comparing detection and association. We can compare on basis of Recall and Precision. Detection recall (DetRe) measures how well a tracker finds all the ground-truth detections, whereas detection precision (DetPr) measures how well a tracker manages to not predict extra detections that aren’t there. Precision and recall are commonly used for evaluating detection, but now with the HOTA metrics we can extend these concepts to also measure association.
+
+<img width="708" alt="8" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/ab7d3820-bb49-4a09-b28f-4c215d187860">
+
+The above plots have tracker numbers ordered by the overall HOTA score still, so the same number refers to the same tracker as above. From the first plot above, we can see that Tracker 1 and Tracker 3 have a similar detection accuracy overall, but Tracker 3 generally finds more of the ground-truth objects (higher recall), but also predicts more detections that are wrong (lower precision). Association recall (AssRe) measures how well trackers can avoid splitting the same object into multiple shorter tracks. In contrast, association precision (AssPr) measures how well tracks can avoid merging multiple objects together into a single track. E.g. Tracker 15 is more likely to split tracks into multiple smaller ones than tracker 20, but it is better at not merging tracks together. Like detection precision and recall, there is a natural trade-off between association precision and recall when designing trackers.
 
 ![10](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/cb389e27-0db3-483c-b9b8-280be3adf5a2)
 
