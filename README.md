@@ -26,6 +26,7 @@ There are standard metrices to measure these three parameters.
 There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  There is always a trade-off between performance parameters.
 
 <img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/996b902f-ffe7-48e9-ad1d-59a04e4c52ef">
+<img width="707" alt="7" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/5ae055b2-d1a6-439d-9034-1a380a8d9a50">
 
 No tracker can be good in everything , it is upto our desired application that which perfromace parameter is more important for tracker. 
 
