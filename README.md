@@ -3,8 +3,25 @@
 In this repo, we will perform object tracking for vulnerable road users (VRUs) like pedestrians bicycle and tricycles.
 Object tracking in video analytics is a critical task that not only identifies the location and class of objects within the frame but also maintains a unique ID for each detected object as the video progresses. The applications are limitless—ranging from surveillance and security to real-time vulnerable road users safety in case of traditional vehicles and self driving vehicles.
 
+# What we expect from tracker
+
+By default the objectives of a good tracker are 
+(1) Detection Accuracy  (2) Association Accuracy (3) Localization Accuracy 
+
+THere are standard metrices to measure these three parameters. 
+
+(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
+
+(2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
+
+(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
+
+(4) Tracking speed
+
+There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements. REst it is upto our desired application that which perfromace parameter is more important for us.
 
 
+No tracker can be good in everything.
 ## Why Choose Ultralytics YOLO for Object Tracking?
 
 The output from Ultralytics trackers is consistent with standard object detection but has the added value of object IDs. This makes it easy to track objects in video streams and perform subsequent analytics. Here's why i have considered using Ultralytics YOLO for my VRU tracking project:
@@ -149,15 +166,7 @@ $ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_duke
 
 ### Evolution
 
-We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. By default the objectives are:
-
-(1) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
-
-(2) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
-
-(3) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of association. It is the ratio of correctly identified detections over the average number of ground-truth and computed detections. The basic idea of IDF1 is to com- bine IDP and IDR to a single number.
-
-(4) Tracking speed
+We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. 
 
 By comparing results from above experiments (1) till (5) benchmarked on same video '1.mp4' it was observed that tracking speed per image is:
 
