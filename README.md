@@ -251,8 +251,8 @@ so we observed tracking time is reduced from 21.9ms to 3.4ms on same '1.mp4' vid
 
 https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/bd94c06e-1a99-4ece-a655-3ad7f74e00d6
 
-
-
+i HAVE TAKEN HELP FROM HERE :
+https://github.com/mikel-brostrom/yolo_tracking
 
 
 
