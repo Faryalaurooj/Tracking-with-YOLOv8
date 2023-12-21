@@ -1,126 +1,151 @@
-# Tracking-with-YOLO
+# BoxMOT: pluggable SOTA tracking modules for segmentation, object detection and pose estimation models
 
-In this repo, we will perform object tracking for vulnerable road users (VRUs) like pedestrians bicycle and tricycles.
-Object tracking in video analytics is a critical task that not only identifies the location and class of objects within the frame but also maintains a unique ID for each detected object as the video progresses. The applications are limitless—ranging from surveillance and security to real-time vulnerable road users safety in case of traditional vehicles and self driving vehicles.
+<div align="center">
+  <p>
+  <img src="assets/images/track_all_seg_1280_025conf.gif" width="400"/>
+  </p>
+  <br>
+  <div>
+  <a href="https://github.com/mikel-brostrom/yolov8_tracking/actions/workflows/ci.yml"><img src="https://github.com/mikel-brostrom/yolov8_tracking/actions/workflows/ci.yml/badge.svg" alt="CI CPU testing"></a>
+  <a href="https://pepy.tech/project/boxmot"><img src="https://static.pepy.tech/badge/boxmot"></a>
+  <br>
+  <a href="https://colab.research.google.com/drive/18nIqkBr68TkK8dHdarxTco6svHUJGggY?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+<a href="https://doi.org/10.5281/zenodo.8132989"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8132989.svg" alt="DOI"></a>
 
-# What we expect from tracker
+  </div>
+</div>
 
-Perfromace Objectives of a good tracker are :
+## Introduction
 
-(1) Detection Accuracy : Detection measures the alignment between the set of all predicted detections and the set of all ground-truth detections.
+This repo contains a collections of pluggable state-of-the-art multi-object trackers for segmentation, object detection and pose estimation models. For the methods using appearance description, both heavy ([CLIPReID](https://arxiv.org/pdf/2211.13977.pdf)) and lightweight state-of-the-art ReID models ([LightMBN](https://arxiv.org/pdf/2101.10774.pdf), [OSNet](https://arxiv.org/pdf/1905.00953.pdf) and more) are available for automatic download. We provide examples on how to use this package together with popular object detection models such as: [Yolov8](https://github.com/ultralytics), [Yolo-NAS](https://github.com/Deci-AI/super-gradients) and [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX).
 
-<img width="687" alt="3" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/88c9baa9-17f1-476f-9a15-34441e75dcbe">
+<div align="center">
 
+|  Tracker | HOTA↑ | MOTA↑ | IDF1↑ |
+| -------- | ----- | ----- | ----- |
+| [BoTSORT](https://arxiv.org/pdf/2206.14651.pdf)    | 77.8 | 78.9 | 88.9 |
+| [DeepOCSORT](https://arxiv.org/pdf/2302.11813.pdf) | 77.4 | 78.4 | 89.0 |
+| [OCSORT](https://arxiv.org/pdf/2203.14360.pdf)     | 77.4 | 78.4 | 89.0 |
+| [HybridSORT](https://arxiv.org/pdf/2308.00783.pdf) | 77.3 | 77.9 | 88.8 |
+| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf)  | 75.6 | 74.6 | 86.0 |
+| [StrongSORT](https://arxiv.org/pdf/2202.13514.pdf) |      | | |
+| <img width=200/>                                   | <img width=100/> | <img width=100/> | <img width=100/> |
 
-(2) Association Accuracy : Association measures how well a tracker links detections over time into the same identities (IDs), given the ground-truth set of identity links in the ground-truth tracks.
+<sub> NOTES: performed on the 10 first frames of each MOT17 sequence. The detector used is ByteTrack's YoloXm, trained on: CrowdHuman, MOT17, Cityperson and ETHZ. Each tracker is configured with its original parameters found in their respective official repository.</sub>
 
-<img width="688" alt="5" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/33d8ff3a-6627-46cb-a5b0-b69057e599fa">
+</div>
 
+</details>
 
-(3) Localization Accuracy : Localization measures the spatial alignment between one predicted detection and one ground-truth detection. 
+<details>
+<summary>Tutorials</summary>
 
-<img width="687" alt="1" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/1d55ce37-c345-4ea5-97b6-194ac78f579b">
+* [Yolov8 training (link to external repository)](https://docs.ultralytics.com/modes/train/)&nbsp;
+* [Deep appearance descriptor training (link to external repository)](https://kaiyangzhou.github.io/deep-person-reid/user_guide.html)&nbsp;
+* [ReID model export to ONNX, OpenVINO, TensorRT and TorchScript](https://github.com/mikel-brostrom/yolo_tracking/wiki/ReID-multi-framework-model-export)&nbsp;
+* [Evaluation on custom tracking dataset](https://github.com/mikel-brostrom/yolo_tracking/wiki/How-to-evaluate-on-custom-tracking-dataset)&nbsp;
+* [ReID inference acceleration with Nebullvm](https://colab.research.google.com/drive/1APUZ1ijCiQFBR9xD0gUvFUOC8yOJIvHm?usp=sharing)&nbsp;
 
+  </details>
 
-There are standard metrices to measure these three parameters. 
+<details>
+<summary>Experiments</summary>
 
+In inverse chronological order:
 
-(1) MOTA (Multiple Object Tracking Accuracy) : MOTA performs both matching and association scoring at a local detection level but pronounces detection accuracy more.
+* [Evaluation of the params evolved for first half of MOT17 on the complete MOT17](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Evaluation-of-the-params-evolved-for-first-half-of-MOT17-on-the-complete-MOT17)
 
+* [Segmentation model vs object detetion model on MOT metrics](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Segmentation-model-vs-object-detetion-model-on-MOT-metrics)
 
-(2) IDF1 : IDF1 performs at a trajectory level by emphasizing the effect of Association. The basic idea of IDF1 is to combine IDP (precision) and IDR (recall) to a single number.
+* [Effect of masking objects before feature extraction](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Masked-detection-crops-vs-regular-detection-crops-for-ReID-feature-extraction)
 
+* [conf-thres vs HOTA, MOTA and IDF1](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/conf-thres-vs-MOT-metrics)
 
-(3) HOTA (Higher Order Tracking Accuracy) : is a novel metric which balances the effect of performing accurate Detection, Association and Localization into a single unified metric for comparing trackers.
+* [Effect of KF updates ahead for tracks with no associations on MOT17](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Effect-of-KF-updates-ahead-for-tracks-with-no-associations,-on-MOT17)
 
+* [Effect of full images vs 1280 input to StrongSORT on MOT17](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Effect-of-passing-full-image-input-vs-1280-re-scaled-to-StrongSORT-on-MOT17)
 
-<img width="685" alt="6" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/2351ef58-8482-4eda-8962-70da0a08e490">
+* [Effect of different OSNet architectures on MOT16](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/OSNet-architecture-performances-on-MOT16)
 
-There exists no single universal super tracker that is good in everything. But HOTA still provides a balanced matrix for all three perfromance requirements.  In this repo, we will evaluate the trackers on HOTA performance matrix. As an example, let’s look at the results of the top 20 methods on the KITTI tracking leaderboard for pedestrians:
+* [Yolov5 StrongSORT vs BoTSORT vs OCSORT](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/StrongSORT-vs-BoTSORT-vs-OCSORT)
+    * Yolov5 [BoTSORT](https://arxiv.org/abs/2206.14651) branch: https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/tree/botsort
 
-<img width="707" alt="7" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/4ad77c92-e047-409c-b56b-3429118c33f8">
+* [Yolov5 StrongSORT OSNet vs other trackers MOT17](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/MOT-17-evaluation-(private-detector))&nbsp;
 
-The rank (red number) gives the order of the trackers, ordered by the overall HOTA score. The top 3 ranked trackers have a very similar overall HOTA scores (46.3%, 45.9% and 45.7%), but we can see from this plot that there is a clear difference in where one is better than the other. Tracker 1 is the best at association, while Tracker 2 is better at detection and Tracker 3 is in between the two for both. If you wanted to select a tracker for a particular application, you could now decide whether association or detection was more important for your application and pick the most appropriate tracker accordingly. 
+* [StrongSORT MOT16 ablation study](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/Yolov5DeepSORTwithOSNet-vs-Yolov5StrongSORTwithOSNet-ablation-study-on-MOT16)&nbsp;
 
-We can go further than just comparing detection and association. We can compare on basis of Recall and Precision. Detection recall (DetRe) measures how well a tracker finds all the ground-truth detections, whereas detection precision (DetPr) measures how well a tracker manages to not predict extra detections that aren’t there. Precision and recall are commonly used for evaluating detection, but now with the HOTA metrics we can extend these concepts to also measure association.
+* [Yolov5 StrongSORT OSNet vs other trackers MOT16 (deprecated)](https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet/wiki/MOT-16-evaluation)&nbsp;
 
-<img width="708" alt="8" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/ab7d3820-bb49-4a09-b28f-4c215d187860">
+  </details>
 
-The above plots have tracker numbers ordered by the overall HOTA score still, so the same number refers to the same tracker as above. From the first plot above, we can see that Tracker 1 and Tracker 3 have a similar detection accuracy overall, but Tracker 3 generally finds more of the ground-truth objects (higher recall), but also predicts more detections that are wrong (lower precision). Association recall (AssRe) measures how well trackers can avoid splitting the same object into multiple shorter tracks. In contrast, association precision (AssPr) measures how well tracks can avoid merging multiple objects together into a single track. E.g. Tracker 15 is more likely to split tracks into multiple smaller ones than tracker 20, but it is better at not merging tracks together. Like detection precision and recall, there is a natural trade-off between association precision and recall when designing trackers.
+#### News
 
-
-The HOTA metrics allows meaningful analysis and comparison between trackers over all four of these dimensions (missing detections, extra detections, splitting tracks and merging tracks) while also combining all of these scores meaningfully into an overall score for ranking trackers.
-
-Finally, HOTA also allows the analysis of localization accuracy:
-
-
-<img width="690" alt="9" src="https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/09f379e6-1436-49b3-83b2-5c0d40dfaf60">
-
-
-In the first plot above we compare HOTA(0) (HOTA at the single lowest alpha threshold, so to not include the influence of localization accuracy, in this case at alpha=0.05) against the localization accuracy LocA(0) (LocA at the same threshold). We can see that Tracker 3 performs slightly better than Tracker 1 at HOTA(0), e.g. when allowing detections to match even if they have only a little overlap, Tracker 3 has overall better detection + association, however the localization of these matched detections is worse, such that when we calculate the final HOTA score by calculating over the range of localization thresholds, Tracker 1 has a higher score. This shows how HOTA is able to decompose and combine tracker behavior not only for detection and association but also for localization.
-
-In the second plot, we compare the top 5 trackers’ HOTA scores across the range of different alpha thresholds. All trackers get worse when increasing the alpha threshold, but the rate at which they get worse is interesting and is useful for comparing behavior between trackers.
-
-
-## Why Choose Ultralytics YOLO for Object Tracking ?
-
-The output from Ultralytics trackers is consistent with standard object detection but has the added value of object IDs. This makes it easy to track objects in video streams and perform subsequent analytics. Here's why i have considered using Ultralytics YOLO for my VRU tracking project:
-
-   (1) Efficiency: Process video streams in real-time without compromising accuracy.
-   
-   
-   (2) Flexibility: Supports multiple tracking algorithms and configurations.
-   
-   
-   (3) Ease of Use: Simple Python API and CLI options for quick integration and deployment.
-   
-   
-   (4) Customizability: Easy to use with custom trained YOLO models, allowing integration into domain-specific applications.
-   
-
-## What i am going to do
-
-I have perfromed this task with YOLOv5 and YOLOv8 models. In my other repo, i have provided complete details on development of a custom dataset for VRUs , training of YOLOv5 , YOLOv7 and YOLOv8 models on custom dataset. The detection results with YOLOv8 and YOLOv5 were good but with YOLOv7 were not good. In this repository i will do two things :
-
-   (1)  Perform tracking with already trained YOLOv8 model with different trackers bytetrack, strongsort, ocsort etc and benchmarking performance HOTA on MOT17 dataset
-   
-   (2)  Perfrom tracking with custom trained YOLOv5 and YOLOv8 on my VRU dataset
-
-   (3)  Perfrom tracking with transfer learning on COCO trained YOLOv5 and YOLOv8 models , then trained further on my custom VRU dataset
-
-   (4)  Provide comparison of results
+* HybridSORT available (August 2023)
+* SOTA CLIP-ReID people and vehicle models available (August 2023)
 
 
-## Tracking with custom trained YOLO on VRU dataset
+## Why BOXMOT?
 
-### (1) Download repo for YOLOv8
-Clone repo and install requirements.txt in a Python>=3.8.0 environment, including PyTorch>=1.7. Models and datasets download automatically from the latest YOLOv5 release.
+Today's multi-object tracking options are heavily dependant on the computation capabilities of the underlaying hardware. BOXMOT provides a great variety of setup options that meet different hardware limitations: CPU only, low memory GPUs... Everything is designed with simplicity and flexibility in mind. If you don't get good tracking results on your custom dataset with the out-of-the-box tracker configurations, use the `examples/evolve.py` script for tracker hyperparameter tuning.
+
+## Installation
+
+Start with [**Python>=3.8**](https://www.python.org/) environment.
+
+If you want to run the YOLOv8, YOLO-NAS or YOLOX examples:
 
 ```
-git clone https://github.com/yolo_tracking  # clone
-pip install -r requirements.txt  # install
-```
-### (2) Tracking
-YOLOv5s and YOLOv5x are already trained on VRU dataset. Whichever model you want to use , simply copy the weights best.pt file from yolov5/runs/train/yolov5x or yolov5s subfolder into main yolov5 directory and then run this command
+git clone https://github.com/mikel-brostrom/yolo_tracking.git
+cd yolo_tracking
+pip install -v -e .
 ```
 
-  python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 # COCO yolov8 model for persons and bicycles detection only. 
+but if you only want to import the tracking modules you can simply:
+
+```
+pip install boxmot
+```
+
+## YOLOv8 | YOLO-NAS | YOLOX examples
+
+<details>
+<summary>Tracking</summary>
+
+<details>
+<summary>Yolo models</summary>
+
+
+
+```bash
+$ python examples/track.py --yolo-model yolov8n       # bboxes only
+  python examples/track.py --yolo-model yolo_nas_s    # bboxes only
+  python examples/track.py --yolo-model yolox_n       # bboxes only
+                                        yolov8n-seg   # bboxes + segmentation masks
+                                        yolov8n-pose  # bboxes + pose estimation
 
 ```
 
+  </details>
 
-#### Tracking Methods
-By default, deeposcort tracker is used. I have benchmarked trackers one by one by with '1.mp4' video using following command:
+<details>
+<summary>Tracking methods</summary>
 
-```
+```bash
 $ python examples/track.py --tracking-method deepocsort
                                              strongsort
                                              ocsort
                                              bytetrack
                                              botsort
 ```
-#### Tracking Sources
-```
+
+</details>
+
+<details>
+<summary>Tracking sources</summary>
+
+Tracking can be run on most video formats
+
+```bash
 $ python examples/track.py --source 0                               # webcam
                                     img.jpg                         # image
                                     vid.mp4                         # video
@@ -129,133 +154,291 @@ $ python examples/track.py --source 0                               # webcam
                                     'https://youtu.be/Zgi9g1ksQHc'  # YouTube
                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
 ```
-By default the tracker tracks all MS COCO classes. In our application we need to track only Vulnerable road users (persons, bicycles , tricycles) therefore we will add their corresponding index after the classes flag. 
 
-#### MOT compliant results
+</details>
 
-Resultant video with tracking can be saved to your experiment folder runs/track/exp*/ by --save and it can be seved as a text file by --save-mot
+<details>
+<summary>Select ReID model</summary>
+
+Some tracking methods combine appearance description and motion in the process of tracking. For those which use appearance, you can choose a ReID model based on your needs from this [ReID model zoo](https://kaiyangzhou.github.io/deep-person-reid/MODEL_ZOO). These model can be further optimized for you needs by the [reid_export.py](https://github.com/mikel-brostrom/yolo_tracking/blob/master/boxmot/deep/reid_export.py) script
+
+```bash
+$ python examples/track.py --source 0 --reid-model lmbn_n_cuhk03_d.pt               # lightweight
+                                                   osnet_x0_25_market1501.pt
+                                                   mobilenetv2_x1_4_msmt17.engine
+                                                   resnet50_msmt17.onnx
+                                                   osnet_x1_0_msmt17.pt
+                                                   clip_market1501.pt               # heavy
+                                                   clip_vehicleid.pt
+                                                   ...
 ```
-python examples/track.py --source ... --save-mot
-```
 
-#### Filter tracked classes
+</details>
+
+<details>
+<summary>Filter tracked classes</summary>
+
 By default the tracker tracks all MS COCO classes.
 
 If you want to track a subset of the classes that you model predicts, add their corresponding index after the classes flag,
-```
+
+```bash
 python examples/track.py --source 0 --yolo-model yolov8s.pt --classes 16 17  # COCO yolov8 model. Track cats and dogs, only
 ```
-### Experiments
 
-(1)  For deepsort tracker, got this result:
+[Here](https://tech.amikelive.com/node-718/what-object-categories-labels-are-in-coco-dataset/) is a list of all the possible objects that a Yolov8 model trained on MS COCO can detect. Notice that the indexing for the classes in this repo starts at zero
 
-https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/e1f6582d-b423-4eb5-baae-3e0b0254b29b
+</details>
 
-Speed: 0.7ms preprocess, 6.1ms inference, 1.3ms postprocess, 21.9ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp5
+<details>
+<summary>MOT compliant results</summary>
 
+Can be saved to your experiment folder `runs/track/exp*/` by
 
-(2)  If we want to do tracking with botsort , strongsort, ocsort, bytetrack then we can do this in this manner. First with ocsort:
-
-```
- python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method ocsort
+```bash
+python examples/track.py --source ... --save-mot
 ```
 
-Following results achieved
-Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 1.1ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp12-oscort
+</details>
 
-(3) with botsort
+</details>
 
-```
- python examples/track.py --source 1.mp4 --yolo-model yolov8s.pt --save --classes 0 1 ----tracking-method botsort
-```
-results are:
-Speed: 0.7ms preprocess, 6.4ms inference, 1.5ms postprocess, 21.4ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13-botsort
+<details>
+<summary>Evaluation</summary>
 
-(4) with strongsort:
+Evaluate a combination of detector, tracking method and ReID model on standard MOT dataset or you custom one by
 
-Speed: 0.7ms preprocess, 6.3ms inference, 1.5ms postprocess, 23.0ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp14-strongsort
-
-(5) with bytetrack:
-
-Speed: 0.7ms preprocess, 6.1ms inference, 1.5ms postprocess, 1.2ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp15-bytetrack
-
-(2) Then i did tracking on another video examp.mp4 and got this result:
-
-
-video 1/1 (27002/27002) /home/caic/Downloads/yolo_series_deepsort_pytorch/yolov8/yolo_tracking/examp.mp4: 384x640 4 persons, 5.8ms
-Speed: 1.0ms preprocess, 5.7ms inference, 0.9ms postprocess, 19.3ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp8
-
-
-(6) Then i did it through this command which is for a video url instead of source video in directory
-
-```
-python examples/track.py --yolo-model yolov8n --source 'https://youtu.be/_zIKxCB3jcI' --save  --classes 0 1 
-```
-### Evaluation
-
-Evaluate a combination of detector, tracking method on standard MOT 17 dataset or our custom VRU_dataset :
-```
+```bash
 $ python3 examples/val.py --yolo-model yolo_nas_s.pt --reid-model osnetx1_0_dukemtcereid.pt --tracking-method deepocsort --benchmark MOT16
                           --yolo-model yolox_n.pt    --reid-model osnet_ain_x1_0_msmt17.pt  --tracking-method ocsort     --benchmark MOT17
                           --yolo-model yolov8s.pt    --reid-model lmbn_n_market.pt          --tracking-method strongsort --benchmark <your-custom-dataset>
 ```
 
-### Evolution
+</details>
 
-We are using a fast multi-object tracking genetic algorithm for tracker hyperparameter tuning. 
+<details>
+<summary>Evolution</summary>
 
-By comparing results from above experiments (1) till (5) benchmarked on same video '1.mp4' it was observed that tracking speed per image is:
+We use a fast and elitist multiobjective genetic algorithm for tracker hyperparameter tuning. By default the objectives are: HOTA, MOTA, IDF1. Run it by
 
-deepsort =   21.9ms 
-ocsort   =   1.1ms
-botsort  =   21.4ms
-strongsort = 23.0ms
-bytetrack =  1.2ms
-
-So oscort is FASTEST and bytetrack is second FAST tracker found so far.
-
-Run it by this command:
-
-```
+```bash
 $ python examples/evolve.py --tracking-method strongsort --benchmark MOT17 --n-trials 100  # tune strongsort for MOT17
                             --tracking-method ocsort     --benchmark <your-custom-dataset> --objective HOTA # tune ocsort for maximizing HOTA on your custom tracking dataset
 ```
 
-with strongsort following results achieved :
+The set of hyperparameters leading to the best HOTA result are written to the tracker's config file.
 
-![pedestrian_plot](https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/1c8136a3-95be-4e32-b867-ec1ef6030d5a)
+</details>
 
 
-## Tracking with custom trained YOLOv8:
+## Custom object detection model tracking example
 
-After completing tracking with COCO dataset weights, i have to perform tracking with my own custom data VRU_dataset. For that i copied the weights best.pt from yolov8/runs/train/yolov8s folder into main directory yolo_tracking and rename them as yolov8s_custom then perform tracking with this command:
+<details>
+<summary>Minimalistic</summary>
 
+```python
+import cv2
+import numpy as np
+from pathlib import Path
+
+from boxmot import DeepOCSORT
+
+
+tracker = DeepOCSORT(
+    model_weights=Path('osnet_x0_25_msmt17.pt'), # which ReID model to use
+    device='cuda:0',
+    fp16=False,
+)
+
+vid = cv2.VideoCapture(0)
+
+while True:
+    ret, im = vid.read()
+
+    # substitute by your object detector, output has to be N X (x, y, x, y, conf, cls)
+    dets = np.array([[144, 212, 578, 480, 0.82, 0],
+                    [425, 281, 576, 472, 0.56, 65]])
+
+    tracks = tracker.update(dets, im) # --> (x, y, x, y, id, conf, cls, ind)
 ```
-cd yolo_tracking
-python examples/track.py --source 1.mp4 --yolo-model yolov8s_custom.pt --save   # default tracking method is deeposcort
+
+</details>
+
+
+<details>
+<summary>Complete</summary>
+
+```python
+import cv2
+import numpy as np
+from pathlib import Path
+
+from boxmot import DeepOCSORT
+
+
+tracker = DeepOCSORT(
+    model_weights=Path('osnet_x0_25_msmt17.pt'), # which ReID model to use
+    device='cuda:0',
+    fp16=True,
+)
+
+vid = cv2.VideoCapture(0)
+color = (0, 0, 255)  # BGR
+thickness = 2
+fontscale = 0.5
+
+while True:
+    ret, im = vid.read()
+
+    # substitute by your object detector, input to tracker has to be N X (x, y, x, y, conf, cls)
+    dets = np.array([[144, 212, 578, 480, 0.82, 0],
+                    [425, 281, 576, 472, 0.56, 65]])
+
+    tracks = tracker.update(dets, im) # --> (x, y, x, y, id, conf, cls, ind)
+
+    xyxys = tracks[:, 0:4].astype('int') # float64 to int
+    ids = tracks[:, 4].astype('int') # float64 to int
+    confs = tracks[:, 5]
+    clss = tracks[:, 6].astype('int') # float64 to int
+    inds = tracks[:, 7].astype('int') # float64 to int
+
+    # in case you have segmentations or poses alongside with your detections you can use
+    # the ind variable in order to identify which track is associated to each seg or pose by:
+    # segs = segs[inds]
+    # poses = poses[inds]
+    # you can then zip them together: zip(tracks, poses)
+
+    # print bboxes with their associated id, cls and conf
+    if tracks.shape[0] != 0:
+        for xyxy, id, conf, cls in zip(xyxys, ids, confs, clss):
+            im = cv2.rectangle(
+                im,
+                (xyxy[0], xyxy[1]),
+                (xyxy[2], xyxy[3]),
+                color,
+                thickness
+            )
+            cv2.putText(
+                im,
+                f'id: {id}, conf: {conf}, c: {cls}',
+                (xyxy[0], xyxy[1]-10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                fontscale,
+                color,
+                thickness
+            )
+
+    # show image with bboxes, ids, classes and confidences
+    cv2.imshow('frame', im)
+
+    # break on pressing q
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+vid.release()
+cv2.destroyAllWindows()
 ```
 
-After running above command i get this resulting video with tracking results:
+</details>
 
-Speed: 0.6ms preprocess, 5.6ms inference, 0.4ms postprocess, 3.4ms tracking per image at shape (1, 3, 384, 640)
-Results saved to /home/caic/anaconda3/envs/yolo_ds1/lib/python3.9/site-packages/runs/track/exp13
-
-so we observed tracking time is reduced from 21.9ms to 3.4ms on same '1.mp4' video but there are missed detections. It only detects small objects , not big persons which needs improvement.
-
-
-https://github.com/Faryalaurooj/Tracking-with-YOLOv8/assets/138756263/bd94c06e-1a99-4ece-a655-3ad7f74e00d6
-
-i HAVE TAKEN HELP FROM HERE :
-https://github.com/mikel-brostrom/yolo_tracking
-
-
+<details>
+<summary>Tiled inference</summary>
+  
+```py
+from sahi import AutoDetectionModel
+from sahi.predict import get_sliced_prediction
+import cv2
+import numpy as np
+from pathlib import Path
+from boxmot import DeepOCSORT
 
 
+tracker = DeepOCSORT(
+    model_weights=Path('osnet_x0_25_msmt17.pt'), # which ReID model to use
+    device='cpu',
+    fp16=False,
+)
 
+detection_model = AutoDetectionModel.from_pretrained(
+    model_type='yolov8',
+    model_path='yolov8n.pt',
+    confidence_threshold=0.5,
+    device="cpu",  # or 'cuda:0'
+)
 
+vid = cv2.VideoCapture(0)
+color = (0, 0, 255)  # BGR
+thickness = 2
+fontscale = 0.5
+
+while True:
+    ret, im = vid.read()
+
+    # get sliced predictions
+    result = get_sliced_prediction(
+        im,
+        detection_model,
+        slice_height=256,
+        slice_width=256,
+        overlap_height_ratio=0.2,
+        overlap_width_ratio=0.2
+    )
+    num_predictions = len(result.object_prediction_list)
+    dets = np.zeros([num_predictions, 6], dtype=np.float32)
+    for ind, object_prediction in enumerate(result.object_prediction_list):
+        dets[ind, :4] = np.array(object_prediction.bbox.to_xyxy(), dtype=np.float32)
+        dets[ind, 4] = object_prediction.score.value
+        dets[ind, 5] = object_prediction.category.id
+
+    tracks = tracker.update(dets, im) # --> (x, y, x, y, id, conf, cls, ind)
+
+    if tracks.shape[0] != 0:
+
+        xyxys = tracks[:, 0:4].astype('int') # float64 to int
+        ids = tracks[:, 4].astype('int') # float64 to int
+        confs = tracks[:, 5].round(decimals=2)
+        clss = tracks[:, 6].astype('int') # float64 to int
+        inds = tracks[:, 7].astype('int') # float64 to int
+
+        # print bboxes with their associated id, cls and conf
+        for xyxy, id, conf, cls in zip(xyxys, ids, confs, clss):
+            im = cv2.rectangle(
+                im,
+                (xyxy[0], xyxy[1]),
+                (xyxy[2], xyxy[3]),
+                color,
+                thickness
+            )
+            cv2.putText(
+                im,
+                f'id: {id}, conf: {conf}, c: {cls}',
+                (xyxy[0], xyxy[1]-10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                fontscale,
+                color,
+                thickness
+            )
+
+    # show image with bboxes, ids, classes and confidences
+    cv2.imshow('frame', im)
+
+    # break on pressing q
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+vid.release()
+cv2.destroyAllWindows()
+```
+
+</details>
+
+## Contributors
+
+<a href="https://github.com/mikel-brostrom/yolo_tracking/graphs/contributors ">
+  <img src="https://contrib.rocks/image?repo=mikel-brostrom/yolo_tracking" />
+</a>
+
+## Contact
+
+For Yolo tracking bugs and feature requests please visit [GitHub Issues](https://github.com/mikel-brostrom/yolo_tracking/issues).
+For business inquiries or professional support requests please send an email to: yolov5.deepsort.pytorch@gmail.com
